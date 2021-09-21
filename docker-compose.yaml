@@ -1,0 +1,40 @@
+version: "3.8"
+
+networks:
+  private:
+    driver: bridge
+
+services:
+  api:
+    build: .
+    environment:
+      APP_PORT: ${APP_PORT}
+      NODE_ENV: ${NODE_ENV-development}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
+      MONGO_INITDB_DATABASE: ${MONGO_NAME}
+      MONGO_PORT: ${MONGO_PORT}
+
+    depends_on:
+      - db
+
+    restart: unless-stopped
+
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+
+    networks:
+      - private
+
+    command: /bin/sh -c "npm run build && npm run start:prod"
+
+  db:
+    image: mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
+      MONGO_INITDB_DATABASE: ${MONGO_NAME}
+      MONGO_PORT: ${MONGO_PORT}
+    networks:
+      - private
