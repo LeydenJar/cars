@@ -7,3 +7,11 @@ services:
       - ./node_modules:/usr/src/app/node_modules
 
     command: /bin/sh -c "npm run start:dev"
+
+  # db_seed:
+  #   # command: mongoimport --host db --db ${MONGO_NAME} --collection cars --drop --file /seedData.json --jsonArray
+
+  #   # command: /bin/sh -c "mongoimport --username=${MONGO_USER} --password=${MONGO_PASS} --host=db --db=${MONGO_NAME} --collection=cars --drop --file=/seedData.json --jsonArray"
+  #   # command: mongoimport --host db --port ${MONGO_PORT} --username ${MONGO_USER} --password ${MONGO_PASS} --db ${MONGO_NAME} --collection cars --drop --file /seedData.json --jsonArray
+
+  #   command: sh -c 'sudo /editable/mongoimport.bash'

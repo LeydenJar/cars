@@ -1,16 +1,15 @@
+import { Failure } from "../../../../core/failures/failure";
 import { CarEntity } from "../entities/car.entity";
 import { CarRepository } from "../repositories/car.repository";
 
 export class CarDetailUsecase {
+  constructor(carRepository: CarRepository) {
+    this.carRepository = carRepository;
+  }
 
-    constructor(carRepository: CarRepository){
-        this.carRepository = carRepository;
-    }
+  private carRepository: CarRepository;
 
-    private carRepository: CarRepository;
-
-    async call(id: number) : Promise<CarEntity>{
-        return await this.carRepository.getCarById(id);
-    }
-
+  async call(id: string): Promise<CarEntity | Failure> {
+    return await this.carRepository.getCarById(id);
+  }
 }

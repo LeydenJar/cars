@@ -39,3 +39,19 @@ services:
       MONGO_PORT: ${MONGO_PORT}
     networks:
       - private
+
+  # db_seed:
+  #   container_name: db_seed
+  #   build: db_seed_data/
+
+  #   networks:
+  #     - private
+  #   depends_on:
+  #     - db
+
+  #   #The line bellow would represent a more realistic scenario, but since this project is being made for a technical test, I will just seed the data anyway so it can be tested more easily on a production scenario
+  #   #command: echo "*** Running in production, not seeding data into db ***"
+  #   # command: mongoimport  --username ${MONGO_USER} --password ${MONGO_PASS} --host db --db ${MONGO_NAME} --collection cars --drop --file /seedData.json --jsonArray
+  #   command: /bin/sh -c "~/mongoimport.sh"
+  #   # command: mongoimport --host db --port ${MONGO_PORT} --username ${MONGO_USER} --password ${MONGO_PASS} --db ${MONGO_NAME} --collection cars --drop --file /seedData.json --jsonArray
+  #   # command: /bin/sh -c "mongoimport --username=${MONGO_USER} --password=${MONGO_PASS} --host=db --db=${MONGO_NAME} --collection=cars --drop --file=/seedData.json --jsonArray"
