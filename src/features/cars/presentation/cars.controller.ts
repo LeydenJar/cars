@@ -1,22 +1,21 @@
-//express router here
 import express from "express";
-import { tokenIntrospection } from "../../../core/tokenIntrospection.middleware";
+import { tokenIntrospection } from "../../../core/middlewares/tokenIntrospection.middleware";
 import Instanciator from "../../../core/instanciator";
+import { SimpleApiResponse } from "../../../core/api_response/simpleApiResponse";
 
 var router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", tokenIntrospection, async (req, res) => {
   const usecase = Instanciator.ListCarsUsecase;
   const response = await usecase.call();
-
-  res.json(response);
+  res.json(new SimpleApiResponse(response));
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", tokenIntrospection, async (req, res) => {
   const carId: string = req.params.id;
   const usecase = Instanciator.CarDetailUsecase;
   const response = await usecase.call(carId);
-  res.json(response);
+  res.json(new SimpleApiResponse(response));
 });
 
 export default router;

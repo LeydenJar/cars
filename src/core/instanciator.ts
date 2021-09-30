@@ -6,6 +6,13 @@ import { CarRepositoryImpl } from "../features/cars/data/repositories/car.reposi
 import { CarDetailUsecase } from "../features/cars/domain/usecases/carDetail.usecase";
 import { ListCarsUsecase } from "../features/cars/domain/usecases/listCars.usecase";
 
+/*
+
+This class is responsible for instanciating the repositories and usecases that we will use in production, 
+so that we don't have to instanciate them every time and that we have access to all of them in a single place
+
+*/
+
 class Instanciator {
   constructor() {
     this.CarRepository = new CarRepositoryImpl();

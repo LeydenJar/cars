@@ -1,14 +1,17 @@
 export class CarEntity {
-    constructor(model: string, year: number){
-        this.model = model;
-        this.year = year;
-    }
+  constructor({ model, year, id }: ICarEntityInput) {
+    this.id = id;
+    this.model = model;
+    this.year = year;
+  }
 
-    model: string;
-    year: number;
+  id: string;
+  model: string;
+  year: number;
 }
 
-export interface ICarEntity{
-    model: string;
-    year: number;
+export interface ICarEntityInput {
+  id: string;
+  model: string;
+  year: number;
 }

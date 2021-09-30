@@ -4,6 +4,7 @@ import authRouter from "./src/features/authentication/presentation/auth.controll
 import carsRouter from "./src/features/cars/presentation/cars.controller";
 import mongoose from "mongoose";
 import { initializeData } from "./src/core/seed_data/initializeData";
+import { config } from "./src/core/config/config";
 
 const env = dotenv.config();
 
@@ -12,7 +13,6 @@ if (env.error) {
 }
 
 const app = express();
-const PORT = process.env.APP_PORT;
 
 //cors
 app.use(express.urlencoded({ extended: true }));
@@ -22,17 +22,17 @@ app.use("/auth", authRouter);
 app.use("/cars", carsRouter);
 
 mongoose
-  .connect("mongodb://db:27017", {
-    user: process.env.MONGO_USER,
-    pass: process.env.MONGO_PASS,
-    dbName: process.env.MONGO_NAME,
+  .connect(config.mongo.connString, {
+    user: config.mongo.user,
+    pass: config.mongo.password,
+    dbName: config.mongo.dbName,
   })
   .then(
     async () => {
       // await initializeData();
-      app.listen(PORT, () => {
+      app.listen(config.app.appPort, () => {
         console.log(
-          `⚡️[server]: Server is running at https://localhost:${PORT}`
+          `⚡️[server]: Server is running at https://localhost:${config.app.appPort}`
         );
       });
     },
@@ -41,9 +41,3 @@ mongoose
       console.log(err);
     }
   );
-
-// app.listen(PORT, () => {
-//   console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
-// });
-
-//reference for organization https://wanago.io/2018/12/03/typescript-express-tutorial-routing-controllers-middleware/

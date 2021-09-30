@@ -5,31 +5,31 @@ import CarModel from "../schemas/car.schema";
 
 export class CarRepositoryImpl implements CarRepository {
   async getAll(): Promise<CarEntity[]> {
-    // return [new CarEntity("Maverik", 1987), new CarEntity("Vectra", 2002)]
-
-    const cars = CarModel.find();
+    const carsDocs = await CarModel.find();
+    const cars = carsDocs.map((carDoc) => {
+      const { model, year, id } = carDoc;
+      return new CarEntity({ model, year, id });
+    });
     return cars;
   }
 
   async getCarById(id: string): Promise<CarEntity | DataFailure> {
-    // return new CarEntity("Gol", 2000);
     try {
-      var car = await CarModel.findById(id);
+      const carDoc = await CarModel.findById(id);
+      if (carDoc) {
+        const { model, year, id } = carDoc;
+        return new CarEntity({ model, year, id });
+      } else {
+        return new DataFailure({
+          code: "data/car_doeasn't_exist",
+          message: "This car doesn't exist",
+        });
+      }
     } catch (err) {
       console.log(err);
       return new DataFailure({
-        code: "data/carFailure",
-        message: "Couldn't take car from database",
-      });
-    }
-    if (car) {
-      car as CarEntity;
-      return car;
-    } else {
-      console.log("All Valid");
-      return new DataFailure({
-        code: "data/carFailure",
-        message: "Couldn't take car from database",
+        code: "car/failure_taking_car_from_database",
+        message: "failure taking car from database",
       });
     }
   }
