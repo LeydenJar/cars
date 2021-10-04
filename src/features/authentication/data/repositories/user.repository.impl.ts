@@ -1,4 +1,4 @@
-import { DataFailure } from "../../../../core/failures/dataFailure";
+import { AuthenticationFailure } from "../../../../core/failures/authenticationFailure";
 import { UserEntity } from "../../domain/entities/user.entity";
 import { UserRepository } from "../../domain/repositories/user.repository";
 import UserModel from "../schemas/user.schema";
@@ -9,24 +9,24 @@ export class UserRepositoryImpl implements UserRepository {
     return user;
   }
 
-  async getUser(username: string): Promise<UserEntity | DataFailure> {
+  async getUser(username: string): Promise<UserEntity | AuthenticationFailure> {
     try {
-      var User = await UserModel.findOne({ username });
+      var user = await UserModel.findOne({ username });
     } catch (err) {
       console.log(err);
-      return new DataFailure({
-        code: "data/UserFailure",
-        message: "Couldn't take User from database",
+      return new AuthenticationFailure({
+        code: "auth/user_error",
+        message: "Error getting user from database",
       });
     }
-    if (User) {
-      User as UserEntity;
-      return new UserEntity({id: User.id, password: User.password, username: User.username});
+    if (user) {
+      user as UserEntity;
+      return new UserEntity({id: user.id, password: user.password, username: user.username});
 
     } else {
-      return new DataFailure({
-        code: "data/UserFailure",
-        message: "Couldn't take User from database",
+      return new AuthenticationFailure({
+        code: "auth/user_does_not_exist",
+        message: "User doesn't exist",
       });
     }
   }

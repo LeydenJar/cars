@@ -1,12 +1,22 @@
 # Cars Crud
 
+
+To run the app:
+
+First, create a .env file, you can copy paste the contents of .env.example to start.
+
+
 To run it in development mode, use
+```
 docker-compose -f docker-compose.yaml -f docker-compose.dev.yaml up
-
+```
 To run it in production mode, use
+```
 docker-compose up
+```
 
-** Architecture **
+
+## Architecture
 
 I chose a clean architecturish design for this project.
 
@@ -22,7 +32,7 @@ Another thing you can realize is that only by looking at the folder structure, y
 Here are some of the objects you're gonna find in this architecture and their responsabilities:
 
 - controllers
-  Controllers in this case serve as input/output adapters, passing the necessary data to methods of deeper levels of the architecture and later formating the responses of this methods into the standard response model for this api and returning them to the user;
+  Controllers in this case serve as input/output adapters, passing the necessary data to methods of deeper levels of the architecture and later formating the responses of this methods into the standard response model for this api and returning them to the user
 
 - usecases
   Usecases hold the business logic of the architecture. All possible actions that a user could perform on the system are implemented as a usecase
@@ -33,7 +43,7 @@ Here are some of the objects you're gonna find in this architecture and their re
 - repositories
   Repositories serve data to the usecases, they will often query databases and apis, and pass the data to the usecases in a way that fulfills the contract estabilished with the domain layer.
 
-** Response standartization **
+## Response standartization
 
 Responses in this api will contain the following properties:
 

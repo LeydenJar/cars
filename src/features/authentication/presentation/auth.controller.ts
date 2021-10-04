@@ -15,7 +15,6 @@ router.post(
 );
 
 router.post("/login", async (req: express.Request, res: express.Response) => {
-  console.log("recieving request");
   const { username, password } = req.body;
   const usecase = instanciator.LoginUsecase;
   const response = await usecase.call({ username, password });

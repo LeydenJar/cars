@@ -1,7 +1,6 @@
 import { AuthenticationFailure } from "../../../../core/failures/authenticationFailure";
-import { DataFailure } from "../../../../core/failures/dataFailure";
+import { instanceOfFailure } from "../../../../core/failures/failure";
 import { Usecase } from "../../../../core/usecases/usecase";
-import { UserEntity } from "../entities/user.entity";
 import { UserRepository } from "../repositories/user.repository";
 
 export class RegisterUsecase
@@ -14,13 +13,13 @@ export class RegisterUsecase
 
   async call(
     params: RegisterUsecaseParams
-  ): Promise<RegisterReturn | DataFailure> {
+  ): Promise<RegisterReturn | AuthenticationFailure> {
     //Verify if user already exists
     const userThatMayAlreadyExists = await this.userRepository.getUser(
       params.username
     );
 
-    if (!(userThatMayAlreadyExists instanceof DataFailure)) {
+    if (!instanceOfFailure(userThatMayAlreadyExists)) {
       return new AuthenticationFailure({
         message: "Username already taken",
         code: "auth/username_taken",
