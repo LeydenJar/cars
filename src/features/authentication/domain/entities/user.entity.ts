@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 export class UserEntity {
   constructor({username, password, id}: IUserEntityInput) {
@@ -10,7 +10,7 @@ export class UserEntity {
   id: string;
   username: string;
   password: string;
-  validatePassword = (pass: string) => bcrypt.compare(pass, this.password);
+  validatePassword = (pass: string) => bcrypt.compareSync(pass, this.password);
 }
 
 export interface IUserEntityInput {

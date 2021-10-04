@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose";
 import { UserEntity } from "../../domain/entities/user.entity";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 const SALT_FACTOR = 10;
 
@@ -16,22 +16,14 @@ UserSchema.pre("save", function (next) {
   if (!user.isModified("password")) return next();
 
   // generate a salt
-  bcrypt.genSalt(SALT_FACTOR, function (err, salt) {
-    if (err) return next(err);
+  const salt = bcrypt.genSaltSync(SALT_FACTOR);
+  const hash = bcrypt.hashSync(user.password, salt);
 
-    // hash the password using our new salt
-    bcrypt.hash(user.password, salt, function (err, hash) {
-      if (err) return next(err);
-      // override the cleartext password with the hashed one
-      user.password = hash;
-      next();
-    });
-  });
+  // override the cleartext password with the hashed one
+  user.password = hash;
+  next();
+
 });
-
-UserSchema.methods.validatePassword = async function (pass: string) {
-  return bcrypt.compare(pass, this.password);
-};
 
 const UserModel = model<UserEntity>("User", UserSchema);
 

@@ -6,8 +6,9 @@ To run the app:
 First, create a .env file, you can copy paste the contents of .env.example to start.
 
 
-To run it in development mode, use
+To run it in development mode, first install the dependencies, then use docker-compose like below
 ```
+npm install
 docker-compose -f docker-compose.yaml -f docker-compose.dev.yaml up
 ```
 To run it in production mode, use
