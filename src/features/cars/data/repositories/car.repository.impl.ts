@@ -7,8 +7,8 @@ export class CarRepositoryImpl implements CarRepository {
   async getAll(): Promise<CarEntity[]> {
     const carsDocs = await CarModel.find();
     const cars = carsDocs.map((carDoc) => {
-      const { model, year, id } = carDoc;
-      return new CarEntity({ model, year, id });
+      const { id, model, year, airConditioner, eletricWindows, hydraulicSteering, automaticTransmission, mileage} = carDoc;
+      return new CarEntity({ id, model, year, airConditioner, eletricWindows, hydraulicSteering, automaticTransmission, mileage});
     });
     return cars;
   }
@@ -17,8 +17,8 @@ export class CarRepositoryImpl implements CarRepository {
     try {
       const carDoc = await CarModel.findById(id);
       if (carDoc) {
-        const { model, year, id } = carDoc;
-        return new CarEntity({ model, year, id });
+        const { id, model, year, airConditioner, eletricWindows, hydraulicSteering, automaticTransmission, mileage} = carDoc;
+      return new CarEntity({ id, model, year, airConditioner, eletricWindows, hydraulicSteering, automaticTransmission, mileage});
       } else {
         return new DataFailure({
           code: "data/car_doeasn't_exist",

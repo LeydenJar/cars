@@ -10,7 +10,6 @@ export class UserRepositoryImpl implements UserRepository {
   }
 
   async getUser(username: string): Promise<UserEntity | DataFailure> {
-    // return new UserEntity("Gol", 2000);
     try {
       var User = await UserModel.findOne({ username });
     } catch (err) {
@@ -22,7 +21,8 @@ export class UserRepositoryImpl implements UserRepository {
     }
     if (User) {
       User as UserEntity;
-      return User;
+      return new UserEntity({id: User.id, password: User.password, username: User.username});
+
     } else {
       return new DataFailure({
         code: "data/UserFailure",

@@ -10,20 +10,20 @@ import cors from "cors";
 const env = dotenv.config();
 
 
-// const options: cors.CorsOptions = {
-//   allowedHeaders: [
-//     'Origin',
-//     'X-Requested-With',
-//     'Content-Type',
-//     'Accept',
-//     'X-Access-Token',
-//     'Authorization'
-//   ],
-//   credentials: true,
-//   methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-//   origin: 'localhost:8000',
-//   preflightContinue: false,
-// };
+const options: cors.CorsOptions = {
+  allowedHeaders: [
+    'Origin',
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'X-Access-Token',
+    'Authorization'
+  ],
+  credentials: true,
+  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  origin: '*'
+};
 
 
 if (env.error) {
@@ -33,7 +33,7 @@ if (env.error) {
 const app = express();
 
 //cors
-app.use(cors());
+app.use(cors(options));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -50,7 +50,7 @@ mongoose
   })
   .then(
     async () => {
-      // await initializeData();
+      await initializeData();
       app.listen(config.app.appPort, () => {
         console.log(
           `⚡️[server]: Server is running at https://localhost:${config.app.appPort}`
